@@ -1,0 +1,97 @@
+import java.util.ArrayList;
+
+public class Main {
+
+    public static void main(String[] args) {
+        BinaryTreeManager<Integer> intTree=new BinaryTreeManager<>();
+        intTree.insertNode(78);
+        intTree.insertNode(39);
+        intTree.insertNode(33);
+        intTree.insertNode(93);
+        intTree.insertNode(28);
+        intTree.insertNode(-23);
+        intTree.insertNode(40);
+        intTree.insertNode(5);
+        intTree.insertNode(33);
+        intTree.insertNode(14);
+        intTree.insertNode(19);
+        System.out.println("printing");
+        intTree.inOrder();
+        System.out.println("===++++===\n"+intTree.number);
+    }
+}
+
+
+class BinaryTreeManager<T extends Comparable>{
+    protected Node<T> root;
+    protected int number;
+
+    class Node<T extends Comparable>{
+        protected T nodeval;
+        protected Node<T> left;
+        protected  Node<T> right;
+        public Node(T x){
+            this.nodeval=x;
+            this.right = null;
+            this.left=null;
+        }
+    }
+
+    public BinaryTreeManager(){
+        this.root=null;
+        this.number =0;
+    }
+    public int getNumber(){//returns size
+        return number;
+    }
+    protected Node<T> createNode(T x){//creates a node
+
+        return new Node<>(x);
+    }
+    public int insertNode(T x){
+        if (root==null){//'start' the tree
+            root=createNode(x);
+            number=1;
+            return number;
+        }else {
+            Node<T> parent=null;
+            Node<T> current=root;
+            while (current!=null){
+                if (x.compareTo(current.nodeval)<0){//if x is less put on the left
+                    //System.out.println(x+"nnn");
+                    parent=current;
+                    current=current.left;
+                }
+                else if (x.compareTo(current.nodeval)>0){//if x is greater put in on the right
+                    parent=current;
+                    current=current.right;
+                }
+                else {break;}//invalid data
+                if (x.compareTo(parent.nodeval)<0){
+                    System.out.println(x+"abc");
+                    parent.left=createNode(x);
+                }else{
+                    System.out.println(x+"def");
+                    parent.right=createNode(x);
+                }//above makes the nodes
+
+            }
+        }number++;
+        return number;
+    }
+    public void inOrder(){
+        System.out.println("====");
+        inOrder(root);
+
+    }
+    public void inOrder(Node<T> root){
+        if (root==null){//makes sure the list is full
+            return;
+        }
+
+        inOrder(root.left);//move as far left as possible
+        System.out.println(root.nodeval);
+        inOrder(root.right);//move as far right as possible
+    }
+}
+
